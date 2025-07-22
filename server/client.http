@@ -1,0 +1,8 @@
+
+
+POST http://localhost:8080/transaction
+Content-Type: application/json
+
+{
+    "prompt": "Hoje tomei um cafe que custou 30 reais"
+}
