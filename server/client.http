@@ -4,5 +4,14 @@ POST http://localhost:8080/transaction
 Content-Type: application/json
 
 {
-    "prompt": "Hoje tomei um cafe que custou 30 reais"
+    "prompt": "Fiz um projeto e vendi de 5000 reais"
 }
+
+###
+
+#get the recent transaction
+GET http://localhost:8080/transaction/recent
+
+###
+
+GET http://localhost:8080/transaction?name=&category=&pagIndex=0
