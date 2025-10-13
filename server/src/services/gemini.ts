@@ -1,10 +1,9 @@
 import { GoogleGenAI } from '@google/genai'
-import { env } from 'process'
-import { tr } from 'zod/locales'
+import { env } from '../env.ts'
 
 const ai = new GoogleGenAI({ apiKey: env.GEMINI_API_KEY })
 
-export async function transactionGenerateIA(prompt: string) {
+export async function transactionGenerateIa(prompt: string) {
   const response = await ai.models.generateContent({
     model: 'gemini-2.5-flash',
     contents: `
@@ -18,7 +17,7 @@ export async function transactionGenerateIA(prompt: string) {
       Formato de saída JSON:
       {
           "name": "string",
-          "category": "string",
+          "categories": "string",
           "type": "string",
           "amount": float
       }
@@ -28,10 +27,14 @@ export async function transactionGenerateIA(prompt: string) {
       Saída: { "name": "Meu salário", "categories": "Salário", "type": "Entrada", "amount": 3000.00 }
 
       Entrada: "Comprei um café por 5.50 hoje"
-      Saída: { "name": "Lanche", "categories": "Alimentação", "type": "Saída", "amount": 5.50 }`.trim(),
+      Saída: { "name": "Lanche", "categories": "Alimentação", "type": "Saída", "amount": 5.50 }
+    
+    `.trim(),
   })
+
   if (!response.text) {
-    throw new Error('Erro ao gerar transação: resposta vazia')
+    throw new Error('Erro ao gerar resposta do Gemini IA')
   }
+
   return response.text
 }

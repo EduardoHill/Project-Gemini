@@ -5,5 +5,5 @@ app
     port: 8080,
   })
   .then(() => {
-    console.log('Server is running on http://localhost:8080')
+    console.log('HTTP server running!')
   })

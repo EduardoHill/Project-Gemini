@@ -1,17 +1,17 @@
-
-
-POST http://localhost:8080/transaction
+# create transactions
+POST http://localhost:8080/transactions
 Content-Type: application/json
 
 {
-    "prompt": "Fiz um projeto e vendi de 5000 reais"
+    "prompt": "Eu tomei cafe da manha e paguei 15,00"
 }
 
 ###
 
-#get the recent transaction
-GET http://localhost:8080/transaction/recent
+# get transactions recents
+GET http://localhost:8080/transactions/recent
 
 ###
 
-GET http://localhost:8080/transaction?name=&category=&pagIndex=0
+# get transactions
+GET http://localhost:8080/transactions?name=&categories=&pageIndex=0

@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  
 }
 
 datasource db {
@@ -12,10 +11,10 @@ datasource db {
 }
 
 model Transaction {
-  id String @id @default(uuid())
-  name String
-  category String  //alimentation, transport, logement, etc.
-  amount Float
-  type String //revenue or expense
-  date DateTime @default(now())
+  id         String   @id @default(uuid())
+  name       String
+  categories String // Alimentação, Transporte, Outros
+  amount     Float
+  type       String // revenue - expense
+  date       DateTime @default(now())
 }

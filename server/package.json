@@ -2,24 +2,26 @@
   "name": "server",
   "version": "1.0.0",
   "type": "module",
+  "description": "API NODEJS gerenciador de finanças usando Gemini IA",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch --env-file .env src/http/server.ts"
+    "dev": "tsx watch --env-file .env ./src/http/server.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "API NODEJS gerenciador de finanças usando Gemini IA",
+  "packageManager": "pnpm@10.13.1",
   "devDependencies": {
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@fastify/cors": "^11.1.0",
     "@google/genai": "^1.10.0",
     "@prisma/client": "^6.12.0",
     "@types/node": "^24.0.15",
     "fastify": "^5.4.0",
     "prisma": "^6.12.0",
-    "zod": "^4.0.7"
+    "zod": "^4.0.5"
   }
 }

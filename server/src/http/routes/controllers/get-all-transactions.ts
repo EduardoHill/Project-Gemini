@@ -3,9 +3,9 @@ import { prisma } from '../../../lib/prisma.ts'
 import z from 'zod'
 
 const schemaBodyQuery = z.object({
-  pagIndex: z.string().optional(),
+  pageIndex: z.string().optional(),
   name: z.string().optional(),
-  category: z.string().optional(),
+  categories: z.string().optional(),
 })
 
 export async function getAllTransactions(
@@ -13,20 +13,24 @@ export async function getAllTransactions(
   reply: FastifyReply
 ) {
   try {
-    const { pagIndex, name, category } = schemaBodyQuery.parse(request.query)
+    const { pageIndex, name, categories } = schemaBodyQuery.parse(request.query)
 
-    const transaction = await prisma.transaction.findMany({
+    const transactions = await prisma.transaction.findMany({
       where: {
         name: {
           contains: name,
         },
-        category: {
-          contains: category,
+        categories: {
+          contains: categories,
         },
       },
 
-      skip: Number(pagIndex) * 10,
-      take: 10,
+      skip: Number(pageIndex) * 3,
+      take: 3,
+
+      orderBy: {
+        date: 'desc',
+      },
     })
 
     const totalCount = await prisma.transaction.count({
@@ -34,20 +38,20 @@ export async function getAllTransactions(
         name: {
           contains: name,
         },
-        category: {
-          contains: category,
+        categories: {
+          contains: categories,
         },
       },
     })
 
-    const pages = Math.ceil(totalCount / 10) || 1
+    const pages = Math.ceil(totalCount / 3) || 1
 
     return reply.status(200).send({
-      transaction,
+      transactions,
       metas: {
         pages,
         totalCount,
-        pagIndex,
+        pageIndex,
       },
     })
   } catch (error) {
