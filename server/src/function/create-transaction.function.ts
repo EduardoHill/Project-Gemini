@@ -11,6 +11,7 @@ const schemaBodyResponse = z.object({
   categories: z.string(),
   type: z.string(),
   amount: z.number(),
+  date: z.date(),
 })
 
 export async function createTransactionFunction({
@@ -20,9 +21,13 @@ export async function createTransactionFunction({
 
   const aiData = aiResponse.replace(/```json\n|\n```/g, '')
 
-  const { name, categories, type, amount } = JSON.parse(aiData) as z.infer<
-    typeof schemaBodyResponse
-  >
+  const { name, categories, type, amount, date } = JSON.parse(
+    aiData
+  ) as z.infer<typeof schemaBodyResponse>
+
+  const finalDate = date
+    ? new Date(date).toISOString()
+    : new Date().toISOString()
 
   const transaction = await prisma.transaction.create({
     data: {
@@ -30,10 +35,9 @@ export async function createTransactionFunction({
       categories,
       type,
       amount,
+      date: finalDate,
     },
   })
 
-  return {
-    transaction,
-  }
+  return transaction
 }

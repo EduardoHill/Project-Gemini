@@ -14,6 +14,17 @@ interface TransactionCardProps {
 }
 
 export function TransactionCard({ transaction }: TransactionCardProps) {
+  let formattedDate = 'Data inválida'
+
+  try {
+    const dateObj = new Date(transaction.date)
+    if (!isNaN(dateObj.getTime())) {
+      dateObj.setHours(dateObj.getHours() + 3)
+      formattedDate = format(dateObj, 'dd/MM/yyyy')
+    }
+  } catch (err) {
+    console.error('Erro ao formatar data:', err)
+  }
   return (
     <div className='px-6 py-4 bg-zinc-900 border border-zinc-700/30 rounded-2xl space-y-4'>
       <div className='flex items-center justify-between'>
@@ -30,9 +41,7 @@ export function TransactionCard({ transaction }: TransactionCardProps) {
         <div className='flex items-center gap-2'>
           <Calendar className='size-4 text-violet-400' />
           <span className='text-sm text-zinc-400'>Data:</span>
-          <span className='text-sm'>
-            {format(transaction.date, 'dd/MM/yyyy')}
-          </span>
+          <span className='text-sm'>{formattedDate}</span>
         </div>
       </div>
 

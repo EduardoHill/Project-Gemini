@@ -13,21 +13,23 @@ export async function transactionGenerateIa(prompt: string) {
       - Categoria (ex: Alimentação, Transporte, Lazer, Salário, Investimento, Outros)
       - Tipo de Movimentação (revenue ou expense)
       - Valor (número decimal, use ponto como separador, sem R$)
+      - Data(se o usuário não mencionar, deixe "null")
 
       Formato de saída JSON:
       {
           "name": "string",
           "categories": "string",
           "type": "string",
-          "amount": float
+          "amount": "float",
+          "date": "DateTime | null"
       }
 
       Exemplo:
       Entrada: "Salário de 3000 em 01/07/2025"
-      Saída: { "name": "Meu salário", "categories": "Salário", "type": "Entrada", "amount": 3000.00 }
+      Saída: { "name": "Meu salário", "categories": "Salário", "type": "Entrada", "amount": 3000.00, "date": "2025-07-01T00:00:00Z" }
 
-      Entrada: "Comprei um café por 5.50 hoje"
-      Saída: { "name": "Lanche", "categories": "Alimentação", "type": "Saída", "amount": 5.50 }
+      Entrada: "Comprei um café por 5.50"
+      Saída: { "name": "Lanche", "categories": "Alimentação", "type": "Saída", "amount": 5.50, "date": null}
     
     `.trim(),
   })

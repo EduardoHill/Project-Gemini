@@ -3,7 +3,7 @@ POST http://localhost:8080/transactions
 Content-Type: application/json
 
 {
-    "prompt": "Eu tomei cafe da manha e paguei 15,00"
+    "prompt": "Eu tomei cafe da manha e paguei 15,00 no dia primeiro de janeiro de 2022"
 }
 
 ###
