@@ -4,15 +4,18 @@ interface schemaBodyQuery {
   pageIndex?: string
   name?: string
   categories?: string
+  userId: string
 }
 
 export async function getAllTransactionsFunction({
   categories,
   name,
   pageIndex,
+  userId,
 }: schemaBodyQuery) {
   const transactions = await prisma.transaction.findMany({
     where: {
+      userId: { equals: userId },
       name: {
         contains: name,
       },
@@ -31,6 +34,7 @@ export async function getAllTransactionsFunction({
 
   const totalCount = await prisma.transaction.count({
     where: {
+      userId: { equals: userId },
       name: {
         contains: name,
       },

@@ -9,17 +9,23 @@ const schemaBodyQuery = z.object({
   categories: z.string().optional(),
 })
 
+const schemaParams = z.object({
+  userId: z.string(),
+})
+
 export const getAllTransactionsRoute: FastifyPluginCallback = (app) => {
-  app.get('/transactions-all', async (request, reply) => {
+  app.get('/transactions-all/:userId', async (request, reply) => {
     try {
       const { categories, name, pageIndex } = schemaBodyQuery.parse(
         request.query
       )
+      const { userId } = schemaParams.parse(request.params)
 
       const { metas, transactions } = await getAllTransactionsFunction({
         categories,
         name,
         pageIndex,
+        userId,
       })
 
       return reply.status(200).send({ metas, transactions })

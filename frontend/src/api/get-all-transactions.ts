@@ -21,15 +21,17 @@ interface GetAllTransactionsRequest {
   pageIndex: number | null
   name: string | null
   categories: string | null
+  userId: string
 }
 
 export async function getAllTransactions({
   pageIndex,
   name,
   categories,
+  userId,
 }: GetAllTransactionsRequest) {
   const response = await api.get<GetAllTransactionsResponse>(
-    '/transactions-all',
+    `/transactions-all/${userId}`,
     {
       params: {
         pageIndex,

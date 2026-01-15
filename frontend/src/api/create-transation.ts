@@ -1,11 +1,15 @@
 import { api } from '../lib/axios'
 
-interface GetTransactionsRequest {
+interface CreateTransactionRequest {
   prompt: string
+  userId: string
 }
 
-export async function createTransaction({ prompt }: GetTransactionsRequest) {
-  await api.post('/transactions', {
+export async function createTransaction({
+  prompt,
+  userId,
+}: CreateTransactionRequest) {
+  await api.post(`/transactions/${userId}`, {
     prompt,
   })
 }

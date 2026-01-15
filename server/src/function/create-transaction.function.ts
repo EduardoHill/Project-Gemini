@@ -4,6 +4,7 @@ import { prisma } from '../lib/prisma.ts'
 
 interface createTransactionProps {
   prompt: string
+  userId: string
 }
 
 const schemaBodyResponse = z.object({
@@ -16,6 +17,7 @@ const schemaBodyResponse = z.object({
 
 export async function createTransactionFunction({
   prompt,
+  userId,
 }: createTransactionProps) {
   const aiResponse = await transactionGenerateIa(prompt)
 
@@ -31,6 +33,7 @@ export async function createTransactionFunction({
 
   const transaction = await prisma.transaction.create({
     data: {
+      userId,
       name,
       categories,
       type,

@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AxiosError } from 'axios'
 import { createTransaction } from '../api/create-transation'
+import { useAuth } from '../contexts/auth-context'
 
 const FormDataSchema = z.object({
   prompt: z.string(),
@@ -16,18 +17,20 @@ const FormDataSchema = z.object({
 type FormData = z.infer<typeof FormDataSchema>
 
 export function Home() {
+  const { user } = useAuth()
+
   const { handleSubmit, register, reset } = useForm({
     resolver: zodResolver(FormDataSchema),
   })
 
-  const { data: result } = useQuery({
-    queryKey: ['transactions-recent'],
-    queryFn: getTransactionsRecent,
+  const queryClient = useQueryClient()
 
+  const { data: result } = useQuery({
+    queryKey: ['transactions-recent', user?.id],
+    queryFn: () => getTransactionsRecent(user!.id),
+    enabled: !!user?.id,
     staleTime: Infinity,
   })
-
-  const queryClient = useQueryClient()
 
   const { mutateAsync: createTransactionFn, isPending } = useMutation({
     mutationFn: createTransaction,
@@ -53,6 +56,7 @@ export function Home() {
 
       await createTransactionFn({
         prompt,
+        userId: user!.id,
       })
 
       reset()

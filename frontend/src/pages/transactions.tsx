@@ -6,8 +6,10 @@ import { TransactionCard } from '../components/transactions-card'
 import { getAllTransactions } from '../api/get-all-transactions'
 import { useSearchParams } from 'react-router-dom'
 import z from 'zod'
+import { useAuth } from '../contexts/auth-context'
 
 export function Transactions() {
+  const { user } = useAuth()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const name = searchParams.get('name')
@@ -20,9 +22,10 @@ export function Transactions() {
     .parse(searchParams.get('page') ?? '1')
 
   const { data: result } = useQuery({
-    queryKey: ['transactions', name, categories, pageIndex],
-    queryFn: () => getAllTransactions({ name, categories, pageIndex }),
-
+    queryKey: ['transactions', name, categories, pageIndex, user?.id],
+    queryFn: () =>
+      getAllTransactions({ name, categories, pageIndex, userId: user!.id }),
+    enabled: !!user?.id,
     staleTime: Infinity,
   })
 

@@ -11,9 +11,9 @@ interface GetTransactionsRecentResponse {
   }[]
 }
 
-export async function getTransactionsRecent() {
+export async function getTransactionsRecent(userId: string) {
   const response = await api.get<GetTransactionsRecentResponse>(
-    '/transactions/recent'
+    `/transactions/recent/${userId}`
   )
 
   return response.data
